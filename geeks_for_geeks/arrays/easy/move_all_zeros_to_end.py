@@ -1,4 +1,8 @@
 '''
+Solve - https://www.geeksforgeeks.org/problems/move-all-zeroes-to-end-of-array0751/1
+
+Move All Zeroes to End
+
 You are given an array arr[] of non-negative integers. You have to move all the zeros in the array to the right end 
 while maintaining the relative order of the non-zero elements. The operation must be performed in place, meaning you 
 should not use extra space for another array.
@@ -18,11 +22,6 @@ Output      : [0, 0]
 Explanation : No change in array as there are all 0s.
 '''
 class Solution:
-    def pushZerosToEnd(self, arr):
-        #self.pushZerosToEnd_twoTraversals(arr)
-        self.pushZerosToEnd_oneTraversal(arr)
-
-
     '''
     Two Traversals
 
@@ -44,7 +43,7 @@ class Solution:
 
     https://www.geeksforgeeks.org/dsa/move-zeroes-end-array/#better-approach-two-traversals-on-time-and-o1-space
     '''
-    def pushZerosToEnd_twoTraversals(self, arr):
+    def _pushZerosToEnd_twoTraversals(self, arr):
         arr_len = len(arr)
         count = 0
 
@@ -70,13 +69,55 @@ class Solution:
 
     Time Complexity     - O(n)
     Space Complexity    - O(1)
-    
+
     https://www.geeksforgeeks.org/dsa/move-zeroes-end-array/#expected-approach-one-traversal-on-time-and-o1-space
     '''
-    def pushZerosToEnd_oneTraversal(self, arr):
+    def _pushZerosToEnd_oneTraversal(self, arr):
         count = 0
 
         for i in range(len(arr)):
             if arr[i] != 0:
                 arr[i], arr[count] = arr[count], arr[i]
                 count += 1
+            
+
+    def pushZerosToEnd(self, arr):
+        #self.pushZerosToEnd_twoTraversals(arr)
+        self._pushZerosToEnd_oneTraversal(arr)
+
+
+####################################################################################
+# Execute command - python ./geeks_for_geeks/arrays/easy/move_all_zeros_to_end.py
+####################################################################################
+def verifyResults(solution : Solution, arr: list, expected_output: list):
+    solution.pushZerosToEnd(arr)
+    assert expected_output == arr
+
+if __name__ == "__main__":
+    solution = Solution()
+
+    # Example 1 Test case
+    verifyResults(
+        solution,
+        [1, 2, 0, 4, 3, 0, 5, 0],
+        [1, 2, 4, 3, 5, 0, 0, 0])
+
+    # Example 2 Test case
+    verifyResults(
+        solution,
+        [10, 20, 30],
+        [10, 20, 30])
+
+    # Example 3 Test case
+    verifyResults(
+        solution,
+        [0, 0],
+        [0, 0])
+
+    # Other example Test case
+    verifyResults(
+        solution,
+        [0, 0, 0, 1, 2, 3],
+        [1, 2, 3, 0, 0, 0])
+
+
