@@ -1,3 +1,27 @@
+# TODO: Need to update this for examples with elements of value 0!!!!
+"""
+Here's Brian's example:
+
+class Solution:
+    def subarraySum(self, arr, target):
+        if target <= 0: 
+            for n in range(len(arr)): 
+                if arr[n] == target: return [n+1,n+1]
+            return [-1]
+        
+        i, j, total = 0, 0, 0
+        while i < len(arr):
+            if total == target: 
+                return [i+1,j]
+            if total < target and j < len(arr): 
+                total += arr[j]
+                j = j+1
+            else: 
+                total -= arr[i]
+                i += 1
+        return [-1]
+"""
+
 '''
 Solve - https://www.geeksforgeeks.org/problems/subarray-with-given-sum-1587115621/1?page=1&company%5B%5D=Facebook&category%5B%5D=Arrays&sortBy=
 
@@ -40,6 +64,26 @@ class Solution:
     https://www.geeksforgeeks.org/dsa/find-subarray-with-given-sum/#naive-using-nested-loop-on2-time-and-o1-auxiliary-space
     '''
     def _subarraySum_nestedLoops(self, arr, target):
+        if target < 0:
+            return [-1]
+        if target == 0:
+            zero_subarray_start_index = -1
+            zero_subarray_end_index = -1
+            
+            for n, num in enumerate(arr):
+                if num == target:
+                    if zero_subarray_start_index == -1:
+                        zero_subarray_start_index = n
+                        zero_subarray_end_index = zero_subarray_start_index
+                    else:
+                        zero_subarray_end_index += 1
+                if num != target and zero_subarray_start_index != -1:
+                    return [
+                        (zero_subarray_start_index+1),
+                        (zero_subarray_end_index+1)
+                    ]
+            return [-1]
+        
         arr_len = len(arr)
     
         # For each starting element
@@ -74,9 +118,9 @@ class Solution:
     '''
     def _subarrySum_slidingWindow(self, arr, target):
         left, right, cumulative_sum = 0, 0, 0
-        
-        for i in range(len(arr)):
-            cumulative_sum += arr[i]
+
+        for i, num in enumerate(arr):
+            cumulative_sum += num
 
             if cumulative_sum >= target:
                 right = i
@@ -135,13 +179,13 @@ class Solution:
     
 
     def subarraySum(self, arr, target):
-        # return self._subarraySum_nestedLoops(arr, target)
+        return self._subarraySum_nestedLoops(arr, target)
         # return self._subarrySum_slidingWindow(arr, target)
-        return self._subarrySum_hashingAndPrefixSum(arr, target)
+        # return self._subarrySum_hashingAndPrefixSum(arr, target)
 
 
 ####################################################################################
-# Execute command - python ./geeks_for_geeks/arrays/easy/move_all_zeros_to_end.py
+# Execute command - python ./geeks_for_geeks/arrays/medium/move_all_zeindexes_of_subarray_sumros_to_end.py
 ####################################################################################
 def verifyResults(solution : Solution, arr: list, target: int, expected_output: list):
     output = solution.subarraySum(arr, target)
@@ -170,3 +214,26 @@ if __name__ == "__main__":
         [5, 3, 4],
         2,
         [-1])
+    
+    # Other example Test case 1
+    verifyResults(
+        solution,
+        [5, 3, 4],
+        0,
+        [-1])
+    
+    # Other example Test case 2 - target=0 && arr contains 0 -> return position of zero
+    verifyResults(
+        solution,
+        [5, 0, 4],
+        0,
+        [2, 2])
+    
+    # Other example Test case 2 - target=0 && arr contains multiple 0's -> return positions of zeros
+    verifyResults(
+        solution,
+        [5, 0, 0, 0, 4],
+        0,
+        [2, 4])
+    
+    print('ALL PASSING')

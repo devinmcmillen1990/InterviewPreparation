@@ -44,17 +44,16 @@ class Solution:
     https://www.geeksforgeeks.org/dsa/move-zeroes-end-array/#better-approach-two-traversals-on-time-and-o1-space
     '''
     def _pushZerosToEnd_twoTraversals(self, arr):
-        arr_len = len(arr)
         count = 0
 
         # First Traversal
-        for i in range(arr_len):
-            if arr[i] != 0:
-                arr[count] = arr[i]
+        for i, num in enumerate(arr):
+            if num != 0:
+                arr[count] = num
                 count += 1
 
         # Second Traversal
-        while count < arr_len:
+        while count < len(arr):
             arr[count] = 0
             count += 1
 
@@ -82,8 +81,8 @@ class Solution:
             
 
     def pushZerosToEnd(self, arr):
-        #self.pushZerosToEnd_twoTraversals(arr)
-        self._pushZerosToEnd_oneTraversal(arr)
+        self._pushZerosToEnd_twoTraversals(arr)
+        # self._pushZerosToEnd_oneTraversal(arr)
 
 
 ####################################################################################
@@ -119,5 +118,7 @@ if __name__ == "__main__":
         solution,
         [0, 0, 0, 1, 2, 3],
         [1, 2, 3, 0, 0, 0])
+    
+    print('ALL PASSING')
 
 
